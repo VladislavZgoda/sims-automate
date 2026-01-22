@@ -1,5 +1,6 @@
-from typing import Any
+from json import load
 from time import sleep
+from typing import Any, TypedDict
 
 import pyautogui
 import pyperclip
@@ -7,13 +8,13 @@ import pyperclip
 # print(pyautogui.position())
 
 
-def main() -> None:
+def main(profile: Profile) -> None:
     search_btn = pyautogui.locateCenterOnScreen(
         "screens/search_bth.png", confidence=0.9
     )
 
     move_mouse_and_click(search_btn)
-    pyautogui.typewrite("13256462", interval=0.3)
+    pyautogui.typewrite(profile["serial_number"], interval=0.3)
 
     meter_search_btn = pyautogui.locateCenterOnScreen(
         "screens/meter_search_btn.png", confidence=0.9
@@ -62,7 +63,7 @@ def main() -> None:
     move_mouse_and_click(excel)
     sleep(2)
 
-    copy_paste_cyrillic("г.Тимашевск,АО Тандер, Крестьянская 58")
+    copy_paste_cyrillic(profile["file_name"])
     save_btn = pyautogui.locateCenterOnScreen("screens/save_btn.png", confidence=0.9)
     move_mouse_and_click(save_btn)
     # Кнопка Да для подтверждения для перезаписи файла.
@@ -71,6 +72,7 @@ def main() -> None:
     move_mouse_and_click((465, 50))
     # Закрыть Данные.
     move_mouse_and_click((315, 53))
+    sleep(2)
 
 
 def move_mouse_and_click(coordinates: Any, btn="left", clicks=1) -> None:
@@ -86,5 +88,21 @@ def copy_paste_cyrillic(text: str) -> None:
     pyautogui.keyUp("ctrl")
 
 
+Profile = TypedDict(
+    "Profile",
+    {
+        "file_name": str,
+        "serial_number": str,
+    },
+)
+
 if __name__ == "__main__":
-    main()
+    try:
+        with open("profiles.json", mode="r", encoding="UTF-8") as f:
+            profiles: list[Profile] = load(f)
+    except FileNotFoundError:
+        print("Error! File 'profiles.json' not found!")
+        exit(1)
+
+    for profile in profiles:
+        main(profile)
