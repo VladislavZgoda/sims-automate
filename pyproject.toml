@@ -1,0 +1,15 @@
+[project]
+name = "sims-automate"
+version = "0.1.0"
+description = "Add your description here"
+readme = "README.md"
+requires-python = ">=3.14"
+dependencies = [
+    "opencv-python>=4.13.0.90",
+    "pyautogui>=0.9.54",
+    "pyperclip>=1.11.0",
+    "ruff>=0.14.13",
+    "ty>=0.0.12",
+    "types-pyautogui>=0.9.3.20241230",
+    "types-pyperclip>=1.9.0.20250801",
+]
