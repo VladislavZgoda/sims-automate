@@ -41,6 +41,13 @@ def main(profile: Profile) -> None:
     )
 
     move_mouse_and_click(menu_all)
+
+    # Если не стоит галочка "Показать разницу", то кликнуть по ней.
+    try:
+        pyautogui.locateOnScreen("screens/difference.png", confidence=0.7)
+    except pyautogui.ImageNotFoundException:
+        move_mouse_and_click((1237, 80))
+
     # Дата До
     move_mouse_and_click((521, 82))
     pyautogui.typewrite("1")
