@@ -66,8 +66,8 @@ def main(profile: Profile) -> None:
     move_mouse_and_click(create_report)
     move_mouse_and_click((575, 106))
 
-    excel = pyautogui.locateCenterOnScreen("screens/excel.png", confidence=0.9)
-    move_mouse_and_click(excel)
+    # Выбрать экспорт в excel
+    move_mouse_and_click((612, 131))
     sleep(2)
 
     copy_paste_cyrillic(profile["file_name"])
